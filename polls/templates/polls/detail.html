@@ -1,7 +1,10 @@
 {% extends 'polls/base.html' %}
 
 {% block content %}
-<h1>{{ question.question_text }}</h1>
+    <h1>{{ question.question_text }}</h1>
+    {% if question.author %}
+        <p>Author: {{ question.author.username }}</p>
+    {% endif %}
 
 {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
 
@@ -13,4 +16,14 @@
 {% endfor %}
 <input type="submit" value="Vote">
 </form>
+{% if request.user == question.author %}
+    <!-- choice creation form -->
+    <h3>Create a new Choice!</h3>
+    <form method='POST'>
+        {% csrf_token %}
+        {{ choice_form.as_p }}
+
+      <input type="submit" value="Submit new choice!">
+    </form>
+{% endif %}
 {% endblock content %}
