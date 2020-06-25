@@ -3,6 +3,7 @@ from django.db import models
 from django.utils import timezone
 
 class Question(models.Model):
+    author = models.ForeignKey(User, on_delete=models.PROTECT, blank=True, null=True, help_text='The user who posted this question.')
     question_text = models.CharField(max_length=200)
     pub_date = models.DateTimeField('date published')
 
